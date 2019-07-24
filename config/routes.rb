@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :notes
+  resources :quotes
 namespace :api do
  namespace :v1 do	
   resources :users
