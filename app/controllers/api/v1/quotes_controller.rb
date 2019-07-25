@@ -46,6 +46,6 @@ class Api::V1::QuotesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def quote_params
-      params.require(:quote).permit(:author, :source, :text, note_id)
+      params.require(:quote).permit(:author, :source, :text, :user_id)
     end
 end
