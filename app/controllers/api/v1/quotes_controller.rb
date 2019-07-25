@@ -3,9 +3,14 @@ class Api::V1::QuotesController < ApplicationController
 
   # GET /quotes
   def index
-    @quotes = Quote.all
-
+     if logged_in?
+    @quotes = current_user.quotes
     render json: @quotes
+  else
+    render json: {
+      error: "You must be logged in to see your quotes"
+    }
+  end
   end
 
   # GET /quotes/1
