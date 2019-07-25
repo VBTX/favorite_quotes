@@ -18,7 +18,7 @@ class Api::V1::QuotesController < ApplicationController
     @quote = Quote.new(quote_params)
 
     if @quote.save
-      render json: @quote, status: :created, location: @quote
+      render json: @quote, status: :created
     else
       render json: @quote.errors, status: :unprocessable_entity
     end
@@ -35,7 +35,17 @@ class Api::V1::QuotesController < ApplicationController
 
   # DELETE /quotes/1
   def destroy
-    @quote.destroy
+    if @quote.destroy
+      render json: {
+        message: "Quote deleted!"
+      }
+
+    else
+
+      error_resp = {
+        error: "Not sure what happened here!"
+      }
+    end
   end
 
   private
