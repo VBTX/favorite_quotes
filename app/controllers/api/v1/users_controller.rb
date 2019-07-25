@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-   wrap_parameters :user, include: [:name, :email, :password_digest, :password_confirmation, :quote_id]
+  wrap_parameters :user, include: [:name, :email, :password, :password_confirmation]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -19,9 +19,13 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      session[:user_id] = @user.id
+      render json: @user, status: 200
     else
-      render json: @user.errors, status: :unprocessable_entity
+      resp = {
+        error: @user.errors.full_messages.to_sentence
+      }
+      render json: resp, status: :unprocessable_entity
     end
   end
 
@@ -47,6 +51,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :password_digest, :password_confirmation, :quote_id)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 end
