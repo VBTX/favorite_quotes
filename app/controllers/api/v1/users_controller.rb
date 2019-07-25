@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+   wrap_parameters :user, include: [:name, :email, :password_digest, :password_confirmation, :quote_id]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -46,6 +47,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :password_digest, :quote_id)
+      params.require(:user).permit(:name, :email, :password_digest, :password_confirmation, :quote_id)
     end
 end
