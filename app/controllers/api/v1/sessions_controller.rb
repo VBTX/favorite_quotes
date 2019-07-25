@@ -12,4 +12,22 @@ class Api::V1::SessionsController < ApplicationController
 			}
 	end
 end
+
+def get_current_user
+		if logged_in?
+			render json: current_user
+		else
+			render json: {
+				error: "Please Log in!"
+			}
+		end
+	end
+
+	def destroy
+		session.clear
+		render json: {
+			notice: "Successfully logged out"
+		}, status:200
+	end
+	
 end
