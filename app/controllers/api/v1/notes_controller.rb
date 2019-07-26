@@ -3,6 +3,14 @@ class Api::V1::NotesController < ApplicationController
 
   # GET /notes
   def index
+     if logged_in?
+    @notes = current_user.notes
+    render json: @notes
+  else
+    render json: {
+      error: "You must be logged in to see your notes"
+    }
+  end
     @notes = Note.all
 
     render json: @notes
@@ -35,7 +43,17 @@ class Api::V1::NotesController < ApplicationController
 
   # DELETE /notes/1
   def destroy
-    @note.destroy
+   if @note.destroy
+      render json: {
+        message: "Note deleted!"
+      }
+
+    else
+
+      error_resp = {
+        error: "Not sure what happened here!"
+      }
+    end
   end
 
   private
@@ -46,6 +64,6 @@ class Api::V1::NotesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.require(:note).permit(:text)
+      params.require(:note).permit(:text, :user_id, :quote_id)
     end
 end
