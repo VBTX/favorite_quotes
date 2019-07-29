@@ -11,9 +11,9 @@ class Api::V1::NotesController < ApplicationController
       error: "You must be logged in to see your notes"
     }
   end
-    @notes = Note.all
+    # @notes = Note.all
 
-    render json: @notes
+    # render json: @notes
   end
 
   # GET /notes/1
@@ -26,7 +26,7 @@ class Api::V1::NotesController < ApplicationController
     @note = Note.new(note_params)
 
     if @note.save
-      render json: @note, status: :created, location: @note
+      render json: @note, status: :created
     else
       render json: @note.errors, status: :unprocessable_entity
     end
