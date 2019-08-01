@@ -20,13 +20,20 @@ class Api::V1::QuotesController < ApplicationController
 
   # POST /quotes
   def create
-    @quote = Quote.new(quote_params)
-
-    if @quote.save
-      render json: @quote, status: :created
+    @quotes = current_user.quotes
+    if @quotes.find_by(text: quote_params[:text])
+      render json: {
+        error: "This quote is already in your collection!"
+      }
     else
-      render json: @quote.errors, status: :unprocessable_entity
-    end
+       @quote = Quote.new(quote_params)
+
+        if @quote.save
+             render json: @quote, status: :created
+         else
+             render json: @quote.errors, status: :unprocessable_entity
+         end
+     end
   end
 
   # PATCH/PUT /quotes/1
