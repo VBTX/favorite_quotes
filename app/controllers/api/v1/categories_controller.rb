@@ -46,6 +46,6 @@ class Api::V1::CategoriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def category_params
-      params.require(:category).permit(:name, :user_id, :quote_id)
+      params.require(:category).permit(:name, :user_id, quote_ids: [])
     end
 end
