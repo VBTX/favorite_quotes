@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  # this solves password being blank due to nested parameters
+  # this solves password being blank due to nested parameters`
   wrap_parameters :user, include: [:name, :email, :password, :password_confirmation]
   before_action :set_user, only: [:show, :update, :destroy]
 
